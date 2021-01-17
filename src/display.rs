@@ -2,11 +2,9 @@ extern crate sdl2;
 
 use crate::globals::{*};
 use sdl2::pixels::Color;
-use sdl2::event::Event;
-use sdl2::keyboard::Keycode;
-use std::time::Duration;
 use self::sdl2::video::Window;
 use self::sdl2::render::WindowCanvas;
+use self::sdl2::rect::Rect;
 
 pub struct Display {
     canvas: WindowCanvas,
@@ -34,5 +32,22 @@ impl Display {
             canvas,
             v_ram,
         }
+    }
+
+    /// Print 2D array of pixels to canvas
+    pub fn blit(&mut self, pixels: &mut [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT]) {
+        for (y, row_arr) in pixels.iter().enumerate() {
+            for (x, &col_arr) in row_arr.iter().enumerate() {
+
+                if col_arr != 0 {
+                    self.canvas.set_draw_color(Color::RGB(0, 0, 0));
+                } else {
+                    self.canvas.set_draw_color(Color::RGB(0, 255, 255));
+                }
+                self.canvas
+                    .fill_rect(Rect::new(x as i32, y as i32, DISPLAY_SCALE, DISPLAY_SCALE));
+            }
+        }
+        self.canvas.present();
     }
 }
