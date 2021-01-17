@@ -18,6 +18,7 @@ Written as an exercise in Rust, emulation and system level programming.
 
 #### Windows
 
+To enable logging include flag ```RUST_LOG=emu```
 ```
 cargo install cargo-vcpkg
 cargo vcpkg build

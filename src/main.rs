@@ -4,11 +4,9 @@ mod display;
 mod globals;
 
 use crate::cpu::Cpu;
-
+use crate::globals::{*};
 use log::{warn, info, error};
-use crate::globals::DISPLAY_FREQ;
 
-const TIME_STEP_MS: u32 = 1000 / DISPLAY_FREQ;
 
 fn main() {
     env_logger::init();
@@ -36,11 +34,10 @@ fn main() {
 
             while next_step <= now {
 
-                // CPU stuff??? verify
+                // CPU tick -> reduce delay timer, sound timer
 
                 next_step += TIME_STEP_MS; // 1 Tick
             }
-
             // Blit graphics
             // Sound
             // Store input
