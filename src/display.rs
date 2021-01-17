@@ -1,5 +1,4 @@
-const PIXEL_WIDTH: i32 = 64;
-const PIXEL_HEIGHT: i32 = 32;
+
 
 extern crate sdl2;
 
@@ -7,15 +6,19 @@ use sdl2::pixels::Color;
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use std::time::Duration;
+use self::sdl2::video::Window;
+use self::sdl2::render::WindowCanvas;
 
-pub struct Display {}
+pub struct Display {
+    canvas: WindowCanvas,
+}
 
 impl Display {
-    pub fn main(&self) {
+    pub fn new() -> Self {
         let sdl_context = sdl2::init().unwrap();
         let video_subsystem = sdl_context.video().unwrap();
 
-        let window = video_subsystem.window("rust-sdl2 demo", 800, 600)
+        let window: Window = video_subsystem.window("CHIP-8 Emulator", 800, 600)
             .position_centered()
             .build()
             .unwrap();
@@ -25,5 +28,9 @@ impl Display {
         canvas.set_draw_color(Color::RGB(0, 255, 255));
         canvas.clear();
         canvas.present();
+
+        Display {
+            canvas,
+        }
     }
 }

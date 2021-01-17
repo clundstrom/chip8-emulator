@@ -2,6 +2,7 @@ mod cpu;
 
 mod registers;
 mod display;
+mod globals;
 use crate::cpu::Cpu;
 
 use log::{warn, info, error};
@@ -14,11 +15,9 @@ fn main() {
     // Get program entry arguments
     let args: Vec<String> = std::env::args().collect();
 
-    let a = display::Display{};
+    let display = display::Display::new();
 
-    a.main();
-
-    let pcu = Cpu::new();
-    info!("{}", pcu.ram[0xFFF]);
+    let cpu = Cpu::new();
+    info!("{}", cpu.ram[0xFFF]);
     info!("the end")
 }
