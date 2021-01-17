@@ -1,6 +1,6 @@
-pub(crate) const PIXEL_WIDTH: i32 = 64;
-pub(crate) const PIXEL_HEIGHT: i32 = 32;
-pub(crate) const SCALE: i32 = 10;
+pub(crate) const PIXEL_WIDTH: usize = 64;
+pub(crate) const PIXEL_HEIGHT: usize = 32;
+pub(crate) const DISPLAY_SCALE: i32 = 10;
 pub(crate) const RAM_SIZE: u16 = 4096;
 pub(crate) const STACK_SIZE: u16 = 16;
 pub(crate) const PC_START: u16 = 0x200;
