@@ -17,7 +17,9 @@ fn main() {
 
     let display = display::Display::new();
 
-    let cpu = Cpu::new();
+    let mut cpu = Cpu::new();
+    cpu.init_font();
+
     info!("{}", cpu.ram[0xFFF]);
     info!("the end")
 }

@@ -1,5 +1,5 @@
 use crate::registers::Register;
-
+use crate::globals;
 
 /// Implementation of CPU
 ///
@@ -26,6 +26,12 @@ impl Cpu {
             ram: [0 as u8; 4096]
             // Timer
             // Delay
+        }
+    }
+
+    pub fn init_font(&mut self){
+        for i in 0..globals::FONT_DEFAULTS.len(){
+            self.ram[i] = globals::FONT_DEFAULTS[i];
         }
     }
 }
