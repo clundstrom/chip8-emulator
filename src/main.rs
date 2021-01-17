@@ -1,7 +1,8 @@
 mod cpu;
-mod registers;
-use crate::cpu::Cpu;
 
+mod registers;
+mod display;
+use crate::cpu::Cpu;
 
 use log::{warn, info, error};
 // MEM FROM 0x000 (0) to 0xFFF (4095
@@ -12,6 +13,10 @@ fn main() {
 
     // Get program entry arguments
     let args: Vec<String> = std::env::args().collect();
+
+    let a = display::Display{};
+
+    a.main();
 
     let pcu = Cpu::new();
     info!("{}", pcu.ram[0xFFF]);
