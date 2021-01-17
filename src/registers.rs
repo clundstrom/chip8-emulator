@@ -3,7 +3,7 @@
 /// * Vx 16 General purpose 8-bit registers denoted Vx where x =  ```[0-F]```
 /// * i  Word register
 /// * pc Program counter: Programs in Chip-8 start at 0x200 (512).
-/// The first 512 are reserved for interpreter.
+/// The first 512 bits are reserved for interpreter.
 pub struct Register {
     pub v0: u8,
     pub v1: u8,
@@ -20,6 +20,8 @@ pub struct Register {
     pub vc: u8,
     pub vd: u8,
     pub ve: u8,
+
+    // Carry flag. Set to 1 if any screen pixels are flipped from set to unset when a sprite is drawn and set to 0 otherwise
     pub vf: u8,
     // Long register for mem addr
     pub i: u16,
