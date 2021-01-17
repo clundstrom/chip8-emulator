@@ -1,4 +1,3 @@
-
 /// Details of a CHIP-8 registry
 ///
 /// * Vx 16 General purpose 8-bit registers denoted Vx where x =  ```[0-F]```
@@ -6,7 +5,6 @@
 /// * pc Program counter: Programs in Chip-8 start at 0x200 (512).
 /// The first 512 are reserved for interpreter.
 pub struct Register {
-    // General purpose 8 bit register where X is 0-F
     pub v0: u8,
     pub v1: u8,
     pub v2: u8,
