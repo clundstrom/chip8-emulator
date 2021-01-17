@@ -8,7 +8,7 @@ use crate::cpu::Cpu;
 use log::{warn, info, error};
 use crate::globals::DISPLAY_FREQ;
 
-const time_step_ms: u32 = 1000 / DISPLAY_FREQ;
+const TIME_STEP_MS: u32 = 1000 / DISPLAY_FREQ;
 
 fn main() {
     env_logger::init();
@@ -32,21 +32,18 @@ fn main() {
     loop {
         let now = display.timer.ticks();
 
-        //
         if next_step <= now {
+
             while next_step <= now {
 
+                // CPU stuff??? verify
 
-                // Blit graphics
-
-
-                // Sound
-
-                // Store input
-
-
-                next_step += time_step_ms; // 1 Tick
+                next_step += TIME_STEP_MS; // 1 Tick
             }
+
+            // Blit graphics
+            // Sound
+            // Store input
         } else {
             // Hold up there Sonic, you're going too fast.
             display.timer.delay(next_step - now);
