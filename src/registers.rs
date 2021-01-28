@@ -26,7 +26,7 @@ pub struct Register {
     // Long register for mem addr
     pub i: u16,
     // Program counter
-    pub pc: u16,
+    pub pc: usize,
 }
 
 

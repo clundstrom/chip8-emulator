@@ -6,6 +6,7 @@ mod globals;
 use crate::cpu::Cpu;
 use crate::globals::{*};
 use log::{warn, info, error};
+use crate::registers::Register;
 
 
 fn main() {
@@ -35,14 +36,14 @@ fn main() {
             while next_step <= now {
 
                 // CPU tick -> reduce delay timer, sound timer
-
+                cpu.tick();
                 next_step += TIME_STEP_MS; // 1 Tick
             }
             // Blit graphics
             // Sound
             // Store input
         } else {
-            // Hold up there Sonic, you're going too fast.
+            // woah slow down Sonic, you're going too fast.
             display.timer.delay(next_step - now);
         }
     }

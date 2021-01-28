@@ -43,6 +43,10 @@ impl Display {
     pub fn blit(&mut self, pixels: &mut [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT]) {
         for (y, row_arr) in pixels.iter().enumerate() {
             for (x, &col_arr) in row_arr.iter().enumerate() {
+
+                let x = (x as u32) * DISPLAY_SCALE;
+                let y = (y as u32) * DISPLAY_SCALE;
+
                 if col_arr != 0 {
                     self.canvas.set_draw_color(Color::RGB(0, 0, 0));
                 } else {

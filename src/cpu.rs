@@ -15,7 +15,7 @@ pub struct Cpu {
     pub stack_ptr: u16,
     pub ram: [u8; RAM_SIZE as usize],
     pub delay_timer: u8,
-    pub sound_timer: u8
+    pub sound_timer: u8,
 }
 
 
@@ -27,13 +27,32 @@ impl Cpu {
             stack_ptr: 0,
             ram: [0 as u8; RAM_SIZE as usize],
             delay_timer: 0,
-            sound_timer: 0
+            sound_timer: 0,
         }
     }
     /// Loads base fonts 0-10, A-F into interpreter section 0x000-0x1FF RAM
-    pub fn init_font(&mut self){
-        for i in 0..FONT_DEFAULTS.len(){
+    pub fn init_font(&mut self) {
+        for i in 0..FONT_DEFAULTS.len() {
             self.ram[i] = FONT_DEFAULTS[i];
         }
+    }
+
+    fn decr_timer(&self, mut timer: u8) {
+        if timer > 0 {
+            timer -= 1;
+        }
+    }
+
+    pub fn tick(&mut self) {
+        self.decr_timer(self.delay_timer);
+        self.decr_timer(self.sound_timer);
+
+        // get opcode
+        let test = self.register.pc +1;
+        let opcode = (self.ram[self.register.pc + 1] as u16);
+
+        // run opcode
+        let a = 2;
+
     }
 }
