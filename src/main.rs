@@ -3,6 +3,8 @@ mod registers;
 mod display;
 mod globals;
 
+use std::fs::File;
+use std::io::Read;
 use crate::cpu::Cpu;
 use crate::globals::{*};
 use log::{warn, info, error};
@@ -21,6 +23,11 @@ fn main() {
     // Load base fonts to ram
     cpu.init_font();
 
+    let mut file = File::open("games/TETRIS").unwrap();
+    let mut data = Vec::<u8>::new();
+    file.read_to_end(&mut data).expect("File not found!");
+
+    cpu.load_rom(&data);
     // V_RAM, GFX driver
     let mut display = display::Display::new();
 

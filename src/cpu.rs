@@ -1,5 +1,6 @@
 use crate::registers::Register;
 use crate::globals::{*};
+use log::{debug, warn, info, error};
 
 /// Implementation of CPU
 ///
@@ -43,16 +44,39 @@ impl Cpu {
         }
     }
 
+    /// Load binary data to RAM starting from PC_START (0x200)
+    pub fn load_rom(&mut self, data: &Vec<u8>) {
+        for i in 0..data.len() {
+            self.write_byte(PC_START + i as u16, data[i]);
+        }
+    }
+
+    /// Write byte to ram address
+    pub fn write_byte(&mut self, addr: u16, val: u8) {
+        self.ram[addr as usize] = val;
+    }
+
+    /// Read byte from 2 byte RAM address
+    pub fn read_byte(&mut self, addr: u16) -> u8 {
+        self.ram[addr as usize]
+    }
+
+    /// One tick represents one CPU instruction
+    /// Moves the program counter one step forward
     pub fn tick(&mut self) {
         self.decr_timer(self.delay_timer);
         self.decr_timer(self.sound_timer);
 
         // get opcode
-        let test = self.register.pc +1;
-        let opcode = (self.ram[self.register.pc + 1] as u16);
+        let lo_byte = self.read_byte(self.register.pc as u16);
+        let hi_byte = self.read_byte((self.register.pc + 1) as u16);
+
+        debug!("Low byte {:?} High byte {:?}", lo_byte, hi_byte);
 
         // run opcode
         let a = 2;
 
+
+        // move pc counter
     }
 }
