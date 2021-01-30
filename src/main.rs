@@ -23,7 +23,7 @@ fn main() {
     // Load base fonts to ram
     cpu.init_font();
 
-    let mut file = File::open("games/TETRIS").unwrap();
+    let mut file = File::open("games/INVADERS").unwrap();
     let mut data = Vec::<u8>::new();
     file.read_to_end(&mut data).expect("File not found!");
 

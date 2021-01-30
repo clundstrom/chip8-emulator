@@ -46,6 +46,9 @@ impl Cpu {
 
     /// Load binary data to RAM starting from PC_START (0x200)
     pub fn load_rom(&mut self, data: &Vec<u8>) {
+        if (PC_START + data.len() as u16 > 0xE8F) {
+            panic!("Access violation: Writing to illegal memory.")
+        }
         for i in 0..data.len() {
             self.write_byte(PC_START + i as u16, data[i]);
         }
@@ -67,16 +70,23 @@ impl Cpu {
         self.decr_timer(self.delay_timer);
         self.decr_timer(self.sound_timer);
 
-        // get opcode
-        let lo_byte = self.read_byte(self.register.pc as u16);
-        let hi_byte = self.read_byte((self.register.pc + 1) as u16);
+        let hi_byte = self.read_byte(self.register.pc as u16) as u16;
+        let lo_byte = self.read_byte((self.register.pc + 1) as u16) as u16;
 
-        debug!("Low byte {:?} High byte {:?}", lo_byte, hi_byte);
+        // Shift hi byte to MSB and compose opcode
+        let opcode: u16 = (hi_byte << 8 | lo_byte) as u16;
 
-        // run opcode
-        let a = 2;
+        debug!("OPCODE: {:#X}", opcode);
 
+        // execute opcode
+        self.execute(opcode);
 
         // move pc counter
+        self.register.pc += 2;
+    }
+
+
+    pub fn execute(&self, opcode: u16) {
+        println!("This is a test");
     }
 }
