@@ -15,6 +15,7 @@ pub struct Cpu {
     pub stack: [u16; STACK_SIZE as usize],
     pub stack_ptr: u16,
     pub ram: [u8; RAM_SIZE as usize],
+    pub v_ram: [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT],
     pub delay_timer: u8,
     pub sound_timer: u8,
 }
@@ -27,6 +28,7 @@ impl Cpu {
             stack: [0 as u16; STACK_SIZE as usize],
             stack_ptr: 0,
             ram: [0 as u8; RAM_SIZE as usize],
+            v_ram: [[0; PIXEL_WIDTH]; PIXEL_HEIGHT],
             delay_timer: 0,
             sound_timer: 0,
         }
@@ -94,7 +96,7 @@ impl Cpu {
     /// x - A 4-bit value, the lower 4 bits of the high byte of the instruction
     /// y - A 4-bit value, the upper 4 bits of the low byte of the instruction
     /// kk or byte - An 8-bit value, the lowest 8 bits of the instruction
-    pub fn execute(&self, opcode: u16) {
+    pub fn execute(&mut self, opcode: u16) {
         let nnn = opcode & 0x0FFF;
         let n = opcode & 0x000F;
         let x = opcode & 0x0F00;
@@ -147,6 +149,30 @@ impl Cpu {
             (0x0F, _, 0x06, 0x05) => debug!("LD Vx, [I]"),
             _ => {}
         };
+
+        self.op_cls();
         println!("This is a test");
     }
+
+    fn op_cls(&mut self) {
+        for y in 0..(PIXEL_HEIGHT) {
+            for x in 0..(PIXEL_WIDTH) {
+                self.v_ram[y][x] = 0;
+            }
+        }
+    }
+
+    fn op_ret() {}
+
+    /// The interpreter sets the program counter to nnn.
+    fn op_jump() {}
+
+    /// Call subroutine at nnn.
+    /// The interpreter increments the stack pointer, then puts the current PC on the top of the stack. The PC is then set to nnn.
+    fn op_call() {}
+
+    /// Skip next instruction if Vx = kk.
+    ///
+    /// The interpreter compares register Vx to kk, and if they are equal, increments the program counter by 2.
+    fn op_cmp() {}
 }

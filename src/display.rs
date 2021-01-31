@@ -9,7 +9,6 @@ use self::sdl2::TimerSubsystem;
 
 pub struct Display {
     pub canvas: WindowCanvas,
-    pub v_ram: [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT],
     pub timer: TimerSubsystem,
 }
 
@@ -34,7 +33,6 @@ impl Display {
 
         Display {
             canvas,
-            v_ram,
             timer,
         }
     }
