@@ -89,3 +89,7 @@ pub(crate) const FONT_DEFAULTS: [u8; 80] = [
     0x80,
     0x80
 ];
+
+pub(crate) trait IObserver {
+    fn update(&self);
+}

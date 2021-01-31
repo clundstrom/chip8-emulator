@@ -10,7 +10,15 @@ use self::sdl2::TimerSubsystem;
 pub struct Display {
     pub canvas: WindowCanvas,
     pub timer: TimerSubsystem,
+    pub v_ram: [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT],
 }
+
+
+pub trait IDisplay {
+    fn clear(&mut self) -> ();
+    fn blit(&mut self, pixels: &mut [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT]) -> ();
+}
+
 
 impl Display {
     pub fn new() -> Self {
@@ -34,14 +42,24 @@ impl Display {
         Display {
             canvas,
             timer,
+            v_ram,
+        }
+    }
+}
+
+impl IDisplay for Display {
+    fn clear(&mut self) -> () {
+        for y in 0..(PIXEL_HEIGHT) {
+            for x in 0..(PIXEL_WIDTH) {
+                self.v_ram[y][x] = 0;
+            }
         }
     }
 
     /// Print 2D array of pixels to canvas
-    pub fn blit(&mut self, pixels: &mut [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT]) {
+    fn blit(&mut self, pixels: &mut [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT]) {
         for (y, row_arr) in pixels.iter().enumerate() {
             for (x, &col_arr) in row_arr.iter().enumerate() {
-
                 let x = (x as u32) * DISPLAY_SCALE;
                 let y = (y as u32) * DISPLAY_SCALE;
 

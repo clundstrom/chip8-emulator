@@ -1,6 +1,6 @@
 use crate::registers::Register;
 use crate::globals::{*};
-use log::{debug, warn, info, error};
+use log::{debug};
 
 /// Implementation of CPU
 ///
@@ -15,11 +15,33 @@ pub struct Cpu {
     pub stack: [u16; STACK_SIZE as usize],
     pub stack_ptr: u16,
     pub ram: [u8; RAM_SIZE as usize],
-    pub v_ram: [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT],
     pub delay_timer: u8,
     pub sound_timer: u8,
+    pub observers: Vec<dyn IObserver>,
 }
 
+trait ISubject<T> {
+    fn attach(&mut self, observer: &T);
+    fn detach(&mut self, observer: &T);
+    fn notify_observers(&self);
+}
+
+
+impl<T: IObserver + PartialEq> ISubject<T> for Cpu {
+    fn attach(&mut self, observer: &T) {
+        self.observers.push(observer);
+    }
+    fn detach(&mut self, observer: &T) {
+        if let Some(idx) = self.observers.iter().position(|x| *x == observer) {
+            self.observers.remove(idx);
+        }
+    }
+    fn notify_observers(&self) {
+        for item in self.observers.iter() {
+            //item.update();
+        }
+    }
+}
 
 impl Cpu {
     pub fn new() -> Self {
@@ -28,9 +50,9 @@ impl Cpu {
             stack: [0 as u16; STACK_SIZE as usize],
             stack_ptr: 0,
             ram: [0 as u8; RAM_SIZE as usize],
-            v_ram: [[0; PIXEL_WIDTH]; PIXEL_HEIGHT],
             delay_timer: 0,
             sound_timer: 0,
+            observers: Vec::new(),
         }
     }
     /// Loads base fonts 0-10, A-F into interpreter section 0x000-0x1FF RAM
@@ -48,7 +70,7 @@ impl Cpu {
 
     /// Load binary data to RAM starting from PC_START (0x200)
     pub fn load_rom(&mut self, data: &Vec<u8>) {
-        if (PC_START + data.len() as u16 > 0xE8F) {
+        if PC_START + data.len() as u16 > 0xE8F {
             panic!("Access violation: Writing to illegal memory.")
         }
         for i in 0..data.len() {
@@ -155,11 +177,7 @@ impl Cpu {
     }
 
     fn op_cls(&mut self) {
-        for y in 0..(PIXEL_HEIGHT) {
-            for x in 0..(PIXEL_WIDTH) {
-                self.v_ram[y][x] = 0;
-            }
-        }
+        // call display trait
     }
 
     fn op_ret() {}
