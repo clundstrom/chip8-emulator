@@ -16,31 +16,7 @@ pub struct Cpu {
     pub stack_ptr: u16,
     pub ram: [u8; RAM_SIZE as usize],
     pub delay_timer: u8,
-    pub sound_timer: u8,
-    pub observers: Vec<dyn IObserver>,
-}
-
-trait ISubject<T> {
-    fn attach(&mut self, observer: &T);
-    fn detach(&mut self, observer: &T);
-    fn notify_observers(&self);
-}
-
-
-impl<T: IObserver + PartialEq> ISubject<T> for Cpu {
-    fn attach(&mut self, observer: &T) {
-        self.observers.push(observer);
-    }
-    fn detach(&mut self, observer: &T) {
-        if let Some(idx) = self.observers.iter().position(|x| *x == observer) {
-            self.observers.remove(idx);
-        }
-    }
-    fn notify_observers(&self) {
-        for item in self.observers.iter() {
-            //item.update();
-        }
-    }
+    pub sound_timer: u8
 }
 
 impl Cpu {
@@ -52,7 +28,6 @@ impl Cpu {
             ram: [0 as u8; RAM_SIZE as usize],
             delay_timer: 0,
             sound_timer: 0,
-            observers: Vec::new(),
         }
     }
     /// Loads base fonts 0-10, A-F into interpreter section 0x000-0x1FF RAM
@@ -173,11 +148,10 @@ impl Cpu {
         };
 
         self.op_cls();
-        println!("This is a test");
     }
 
     fn op_cls(&mut self) {
-        // call display trait
+        // call display clear
     }
 
     fn op_ret() {}

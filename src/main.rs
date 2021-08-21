@@ -29,7 +29,7 @@ fn main() {
     // V_RAM, GFX driver
     let mut display = display::Display::new();
 
-    // Prepare clock cycles
+    // Start clock cycle timer
     let mut next_step = display.timer.ticks();
 
     // Emulation loop

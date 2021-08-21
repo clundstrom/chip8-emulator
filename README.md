@@ -4,7 +4,6 @@
 
 Written as an exercise in Rust, emulation and system level programming. 
 
-**Work in progress.**
 
 ### Dependencies
 

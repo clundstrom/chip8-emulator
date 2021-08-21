@@ -13,13 +13,6 @@ pub struct Display {
     pub v_ram: [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT],
 }
 
-
-pub trait IDisplay {
-    fn clear(&mut self) -> ();
-    fn blit(&mut self, pixels: &mut [[i32; PIXEL_WIDTH]; PIXEL_HEIGHT]) -> ();
-}
-
-
 impl Display {
     pub fn new() -> Self {
         let v_ram = [[0; PIXEL_WIDTH]; PIXEL_HEIGHT];
@@ -45,9 +38,7 @@ impl Display {
             v_ram,
         }
     }
-}
 
-impl IDisplay for Display {
     fn clear(&mut self) -> () {
         for y in 0..(PIXEL_HEIGHT) {
             for x in 0..(PIXEL_WIDTH) {
